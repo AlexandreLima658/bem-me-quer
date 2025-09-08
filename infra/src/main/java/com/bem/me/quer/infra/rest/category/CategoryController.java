@@ -4,6 +4,7 @@ package com.bem.me.quer.infra.rest.category;
 import com.bem.me.quer.application.category.commands.create.CreateCategoryInput;
 import com.bem.me.quer.application.category.commands.create.CreateCategoryOutput;
 import com.bem.me.quer.application.category.commands.create.CreateCategoryUseCase;
+import com.bem.me.quer.application.category.commands.delete.DeleteCategoryUseCase;
 import com.bem.me.quer.application.category.commands.update.UpdateCategoryOutput;
 import com.bem.me.quer.application.category.commands.update.UpdateCategoryUseCase;
 import com.bem.me.quer.infra.rest.category.models.UpdateCategoryHttpRequest;
@@ -17,13 +18,16 @@ public class CategoryController implements CategoryAPI {
 
     private final CreateCategoryUseCase createCategoryUseCase;
     private final UpdateCategoryUseCase updateCategoryUseCase;
+    private final DeleteCategoryUseCase deleteCategoryUseCase;
 
     public CategoryController(
             final  CreateCategoryUseCase createCategoryUseCase,
-            final UpdateCategoryUseCase updateCategoryUseCase
+            final UpdateCategoryUseCase updateCategoryUseCase,
+            final DeleteCategoryUseCase deleteCategoryUseCase
     ) {
         this.createCategoryUseCase = createCategoryUseCase;
         this.updateCategoryUseCase = updateCategoryUseCase;
+        this.deleteCategoryUseCase = deleteCategoryUseCase;
     }
 
     @Override
@@ -42,5 +46,10 @@ public class CategoryController implements CategoryAPI {
         final var category = request.toInput(categoryId);
 
         return ResponseEntity.ok(this.updateCategoryUseCase.execute(category));
+    }
+
+    @Override
+    public void delete(final Long categoryId) {
+        this.deleteCategoryUseCase.execute(categoryId);
     }
 }
