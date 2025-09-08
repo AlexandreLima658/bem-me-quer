@@ -1,4 +1,4 @@
-rootProject.name = 'api'
+rootProject.name = 'bem.me.quer'
 
 include 'domain'
 include 'application'

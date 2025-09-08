@@ -1,4 +1,4 @@
-package com.bem.me.quer.api.infra.category.jpa;
+package com.bem.me.quer.infra.jpa.category;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

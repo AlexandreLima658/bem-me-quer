@@ -1,4 +1,4 @@
-package com.bem.me.quer.api.infra;
+package com.bem.me.quer.infra;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

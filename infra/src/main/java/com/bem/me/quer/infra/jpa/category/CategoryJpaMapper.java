@@ -1,4 +1,4 @@
-package com.bem.me.quer.api.infra.category.jpa;
+package com.bem.me.quer.infra.jpa.category;
 
 import com.bem.me.quer.domain.category.Category;
 import com.bem.me.quer.domain.category.CategoryFactory;

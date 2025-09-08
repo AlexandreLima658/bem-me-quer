@@ -1,4 +1,4 @@
-package com.bem.me.quer.api.infra.category.jpa;
+package com.bem.me.quer.infra.jpa.category;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -16,15 +16,16 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(of = "id")
 public class CategoryJpaEntity {
 
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "category_name", nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "category_description")
+    @Column(name = "description")
     private String description;
 
-    @Column(name = "category_createdAt")
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 }
