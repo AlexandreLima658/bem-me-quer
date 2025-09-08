@@ -9,9 +9,9 @@ import java.time.LocalDateTime;
 
 public class Category extends AggregateRoot<CategoryId> {
 
-    private final String name;
-    private final String description;
-    private final LocalDateTime createdAt;
+    private String name;
+    private String description;
+    private LocalDateTime createdAt;
 
     Category(
             final CategoryId id,
@@ -33,5 +33,15 @@ public class Category extends AggregateRoot<CategoryId> {
     }
     public LocalDateTime createdAt(){
         return createdAt;
+    }
+
+    public void update(
+            String name,
+            String description,
+            LocalDateTime createdAt
+    ){
+        this.name = name;
+        this.description = description;
+        this.createdAt = createdAt;
     }
 }
