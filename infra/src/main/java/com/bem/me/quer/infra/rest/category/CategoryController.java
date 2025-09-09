@@ -7,6 +7,8 @@ import com.bem.me.quer.application.category.commands.create.CreateCategoryUseCas
 import com.bem.me.quer.application.category.commands.delete.DeleteCategoryUseCase;
 import com.bem.me.quer.application.category.commands.update.UpdateCategoryOutput;
 import com.bem.me.quer.application.category.commands.update.UpdateCategoryUseCase;
+import com.bem.me.quer.application.category.query.id.RetrieveCategoryByIdOutput;
+import com.bem.me.quer.infra.gateways.category.RetrieveCategoryByIdGatewayImpl;
 import com.bem.me.quer.infra.rest.category.models.UpdateCategoryHttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,15 +21,18 @@ public class CategoryController implements CategoryAPI {
     private final CreateCategoryUseCase createCategoryUseCase;
     private final UpdateCategoryUseCase updateCategoryUseCase;
     private final DeleteCategoryUseCase deleteCategoryUseCase;
+    private final RetrieveCategoryByIdGatewayImpl retrieveCategoryByIdGateway;
 
     public CategoryController(
             final  CreateCategoryUseCase createCategoryUseCase,
             final UpdateCategoryUseCase updateCategoryUseCase,
-            final DeleteCategoryUseCase deleteCategoryUseCase
+            final DeleteCategoryUseCase deleteCategoryUseCase,
+            final RetrieveCategoryByIdGatewayImpl retrieveCategoryByIdGateway
     ) {
         this.createCategoryUseCase = createCategoryUseCase;
         this.updateCategoryUseCase = updateCategoryUseCase;
         this.deleteCategoryUseCase = deleteCategoryUseCase;
+        this.retrieveCategoryByIdGateway = retrieveCategoryByIdGateway;
     }
 
     @Override
@@ -46,6 +51,12 @@ public class CategoryController implements CategoryAPI {
         final var category = request.toInput(categoryId);
 
         return ResponseEntity.ok(this.updateCategoryUseCase.execute(category));
+    }
+
+    @Override
+    public ResponseEntity<RetrieveCategoryByIdOutput> retrieveById(final Long categoryId) {
+
+        return ResponseEntity.ok(this.retrieveCategoryByIdGateway.execute(categoryId));
     }
 
     @Override
