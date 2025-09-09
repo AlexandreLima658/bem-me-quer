@@ -7,6 +7,7 @@ import com.bem.me.quer.domain.category.attributes.CategoryId;
 import com.bem.me.quer.domain.commons.exceptions.NotFoundException;
 import com.bem.me.quer.infra.jpa.category.CategoryJpaEntity;
 import com.bem.me.quer.infra.jpa.category.CategoryJpaRepository;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -25,7 +26,7 @@ public class RetrieveCategoryByIdGatewayImpl implements RetrieveCategoryByIdGate
 
         final var categoryId = CategoryId.from(id);
 
-        return this.repository.findOne(CategorySpecification.hasId(categoryId.value()))
+        return this.repository.findOne(hasId(categoryId.value()))
                 .map(this::mapperFrom)
                 .orElseThrow(() -> NotFoundException.with(Category.class, categoryId));
 
@@ -38,6 +39,13 @@ public class RetrieveCategoryByIdGatewayImpl implements RetrieveCategoryByIdGate
                 jpa.getDescription(),
                 jpa.getCreatedAt()
         );
+    }
+
+    private static Specification<CategoryJpaEntity> hasId(final Long id) {
+        return (root,
+                query,
+                builder
+        ) -> builder.equal(root.get("id"), id);
     }
 
 }
