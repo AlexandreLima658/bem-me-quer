@@ -9,6 +9,8 @@ import com.bem.me.quer.infra.jpa.category.CategoryJpaEntity;
 import com.bem.me.quer.infra.jpa.category.CategoryJpaRepository;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class RetrieveCategoryByIdGatewayImpl implements RetrieveCategoryByIdGateway {
 
@@ -23,7 +25,7 @@ public class RetrieveCategoryByIdGatewayImpl implements RetrieveCategoryByIdGate
 
         final var categoryId = CategoryId.from(id);
 
-        return repository.findOne(CategorySpecification.hasId(categoryId.value()))
+        return this.repository.findOne(CategorySpecification.hasId(categoryId.value()))
                 .map(this::mapperFrom)
                 .orElseThrow(() -> NotFoundException.with(Category.class, categoryId));
 
