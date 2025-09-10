@@ -4,8 +4,10 @@ package com.bem.me.quer.infra.rest.category;
 import com.bem.me.quer.application.category.commands.create.CreateCategoryInput;
 import com.bem.me.quer.application.category.commands.create.CreateCategoryOutput;
 import com.bem.me.quer.application.category.commands.update.UpdateCategoryOutput;
+import com.bem.me.quer.application.category.query.filter.RetrieveCategoriesByFilterOutput;
 import com.bem.me.quer.application.category.query.id.RetrieveCategoryByIdOutput;
 import com.bem.me.quer.domain.commons.exceptions.ErrorInfo;
+import com.bem.me.quer.domain.pagination.Pagination;
 import com.bem.me.quer.infra.rest.category.models.UpdateCategoryHttpRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -55,6 +57,20 @@ public interface CategoryAPI {
     })
     ResponseEntity<RetrieveCategoryByIdOutput> retrieveById(
             @PathVariable(name = "categoryId") final Long categoryId
+    );
+
+    @GetMapping
+    @Operation(summary = "Retrieve a list of categories")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Categories successfully recovered"),
+            @ApiResponse(responseCode = "422", description = "Validation failed",content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
+    })
+    ResponseEntity<Pagination<RetrieveCategoriesByFilterOutput>> retrieveByFilter(
+            @RequestParam(name = "page", required = false, defaultValue = "0") final int page,
+            @RequestParam(name = "per_page", required = false, defaultValue = "5") final int perPage,
+            @RequestParam(name = "sort", required = false, defaultValue = "name") final String sort,
+            @RequestParam(name = "direction", required = false, defaultValue = "asc") final String direction
     );
 
     @DeleteMapping(value = "{categoryId}")

@@ -10,8 +10,6 @@ import com.bem.me.quer.infra.jpa.category.CategoryJpaRepository;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
-
 @Component
 public class RetrieveCategoryByIdGatewayImpl implements RetrieveCategoryByIdGateway {
 

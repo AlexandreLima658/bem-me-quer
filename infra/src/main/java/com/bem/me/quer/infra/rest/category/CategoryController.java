@@ -7,9 +7,14 @@ import com.bem.me.quer.application.category.commands.create.CreateCategoryUseCas
 import com.bem.me.quer.application.category.commands.delete.DeleteCategoryUseCase;
 import com.bem.me.quer.application.category.commands.update.UpdateCategoryOutput;
 import com.bem.me.quer.application.category.commands.update.UpdateCategoryUseCase;
+import com.bem.me.quer.application.category.query.filter.RetrieveCategoriesByFilterInput;
+import com.bem.me.quer.application.category.query.filter.RetrieveCategoriesByFilterOutput;
 import com.bem.me.quer.application.category.query.id.RetrieveCategoryByIdOutput;
+import com.bem.me.quer.domain.pagination.Pagination;
+import com.bem.me.quer.infra.gateways.category.RetrieveCategoriesByFilterGatewayImpl;
 import com.bem.me.quer.infra.gateways.category.RetrieveCategoryByIdGatewayImpl;
 import com.bem.me.quer.infra.rest.category.models.UpdateCategoryHttpRequest;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,17 +27,20 @@ public class CategoryController implements CategoryAPI {
     private final UpdateCategoryUseCase updateCategoryUseCase;
     private final DeleteCategoryUseCase deleteCategoryUseCase;
     private final RetrieveCategoryByIdGatewayImpl retrieveCategoryByIdGateway;
+    private final RetrieveCategoriesByFilterGatewayImpl retrieveCategoriesByFilterGateway;
 
     public CategoryController(
             final  CreateCategoryUseCase createCategoryUseCase,
             final UpdateCategoryUseCase updateCategoryUseCase,
             final DeleteCategoryUseCase deleteCategoryUseCase,
-            final RetrieveCategoryByIdGatewayImpl retrieveCategoryByIdGateway
+            final RetrieveCategoryByIdGatewayImpl retrieveCategoryByIdGateway,
+            final RetrieveCategoriesByFilterGatewayImpl retrieveCategoriesByFilterGateway
     ) {
         this.createCategoryUseCase = createCategoryUseCase;
         this.updateCategoryUseCase = updateCategoryUseCase;
         this.deleteCategoryUseCase = deleteCategoryUseCase;
         this.retrieveCategoryByIdGateway = retrieveCategoryByIdGateway;
+        this.retrieveCategoriesByFilterGateway = retrieveCategoriesByFilterGateway;
     }
 
     @Override
@@ -57,6 +65,24 @@ public class CategoryController implements CategoryAPI {
     public ResponseEntity<RetrieveCategoryByIdOutput> retrieveById(final Long categoryId) {
 
         return ResponseEntity.ok(this.retrieveCategoryByIdGateway.execute(categoryId));
+    }
+
+    @Override
+    public ResponseEntity<Pagination<RetrieveCategoriesByFilterOutput>> retrieveByFilter(
+            final int page,
+            final int perPage,
+            final String sort,
+            final String direction
+    ) {
+
+        final var input = new RetrieveCategoriesByFilterInput(
+                page,
+                perPage,
+                sort,
+                direction
+        );
+
+        return ResponseEntity.ok(this.retrieveCategoriesByFilterGateway.execute(input));
     }
 
     @Override
