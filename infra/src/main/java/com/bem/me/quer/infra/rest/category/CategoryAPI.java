@@ -70,6 +70,7 @@ public interface CategoryAPI {
             @RequestParam(name = "page", required = false, defaultValue = "0") final int page,
             @RequestParam(name = "per_page", required = false, defaultValue = "5") final int perPage,
             @RequestParam(name = "sort", required = false, defaultValue = "name") final String sort,
+            @RequestParam(name = "query", required = false, defaultValue = "") final String query,
             @RequestParam(name = "direction", required = false, defaultValue = "asc") final String direction
     );
 

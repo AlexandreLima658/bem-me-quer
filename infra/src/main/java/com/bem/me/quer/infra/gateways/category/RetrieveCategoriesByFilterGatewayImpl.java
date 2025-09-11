@@ -6,11 +6,16 @@ import com.bem.me.quer.application.category.query.filter.RetrieveCategoriesByFil
 import com.bem.me.quer.domain.pagination.Pagination;
 import com.bem.me.quer.infra.jpa.category.CategoryJpaEntity;
 import com.bem.me.quer.infra.jpa.category.CategoryJpaRepository;
+import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Component
 public class RetrieveCategoriesByFilterGatewayImpl implements RetrieveCategoriesByFilterGateway {
@@ -24,19 +29,21 @@ public class RetrieveCategoriesByFilterGatewayImpl implements RetrieveCategories
     @Override
     public Pagination<RetrieveCategoriesByFilterOutput> execute(final RetrieveCategoriesByFilterInput input) {
 
+        final var specification = filters(input.query());
+
         final var page = PageRequest.of(
                 input.page(),
                 input.perPage(),
                 Sort.by(Sort.Direction.fromString(input.sortDirection()), input.sortBy())
         );
 
-        Page<CategoryJpaEntity> categories = this.repository.findAll(Specification.where(null), page);
+        final var pageResult = this.repository.findAll(specification, page);
 
         return new Pagination<>(
                 input.page(),
                 input.perPage(),
-                categories.getTotalElements(),
-                categories.getContent()
+                pageResult.getTotalElements(),
+                pageResult.getContent()
                         .stream()
                         .map(this::mapperFrom)
                         .toList()
@@ -52,5 +59,15 @@ public class RetrieveCategoriesByFilterGatewayImpl implements RetrieveCategories
         );
     }
 
+    private Specification<CategoryJpaEntity> filters(final String term) {
+        return (root, query, builder) -> {
+
+            if (Objects.isNull(term) || term.isBlank()) {
+                return builder.isTrue(builder.literal(true));
+            }
+
+            return builder.like(builder.lower(root.get("name")), "%" + term.toLowerCase() + "%");
+        };
+    }
 
 }

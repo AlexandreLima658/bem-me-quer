@@ -30,7 +30,7 @@ public class CategoryController implements CategoryAPI {
     private final RetrieveCategoriesByFilterGatewayImpl retrieveCategoriesByFilterGateway;
 
     public CategoryController(
-            final  CreateCategoryUseCase createCategoryUseCase,
+            final CreateCategoryUseCase createCategoryUseCase,
             final UpdateCategoryUseCase updateCategoryUseCase,
             final DeleteCategoryUseCase deleteCategoryUseCase,
             final RetrieveCategoryByIdGatewayImpl retrieveCategoryByIdGateway,
@@ -72,18 +72,20 @@ public class CategoryController implements CategoryAPI {
             final int page,
             final int perPage,
             final String sort,
+            final String query,
             final String direction
     ) {
-
         final var input = new RetrieveCategoriesByFilterInput(
                 page,
                 perPage,
                 sort,
+                query,
                 direction
         );
 
         return ResponseEntity.ok(this.retrieveCategoriesByFilterGateway.execute(input));
     }
+
 
     @Override
     public void delete(final Long categoryId) {
