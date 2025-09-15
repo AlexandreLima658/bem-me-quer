@@ -30,8 +30,8 @@ public class UpdateCategoryUseCase extends UseCase<UpdateCategoryInput, UpdateCa
                 input.createdAt()
         );
 
-        final var categoryId = this.repository.persist(category);
+        this.repository.persist(category);
 
-        return new UpdateCategoryOutput(categoryId.value());
+        return new UpdateCategoryOutput(category.id().value());
     }
 }

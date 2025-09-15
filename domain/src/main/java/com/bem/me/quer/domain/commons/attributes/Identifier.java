@@ -1,5 +1,7 @@
 package com.bem.me.quer.domain.commons.attributes;
 
+import java.util.Objects;
+
 public abstract class Identifier<T>{
 
     private final T value;
@@ -10,5 +12,20 @@ public abstract class Identifier<T>{
 
     public T value(){
         return  value;
+    }
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
+    }
+
+    @Override
+    public boolean equals(final Object other) {
+
+        if (this == other) return true;
+        if (other == null || getClass() != other.getClass()) return false;
+        final var that = (Identifier<?>) other;
+
+        return value != null && value.equals(that.value);
     }
 }

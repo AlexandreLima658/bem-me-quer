@@ -15,6 +15,10 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter'
 
     implementation ("jakarta.inject:jakarta.inject-api:2.0.1")
+
+    testImplementation 'org.mockito:mockito-core:5.18.0'
+
+
 }
 
 test {
