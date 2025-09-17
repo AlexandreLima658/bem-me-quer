@@ -21,12 +21,14 @@ public class Product extends AggregateRoot<ProductId> {
         super(productId);
 
         if (name == null || name.isBlank()) {
-            throw new DomainException(new ErrorInfo("Product name is required!"));
+            throw DomainException.with("Product name is required!");
         }
         if(description == null || description.isBlank()) {
-            throw new DomainException(new ErrorInfo("Product description is required!"));
+            throw  DomainException.with("Product description is required!");
         }
 
+        this.name = name;
+        this.description = description;
         this.categoryId = categoryId;
     }
 
@@ -36,6 +38,10 @@ public class Product extends AggregateRoot<ProductId> {
 
     public String description() {
         return description;
+    }
+
+    public CategoryId categoryId(){
+        return categoryId;
     }
 
 

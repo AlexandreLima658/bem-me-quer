@@ -9,11 +9,11 @@ public class DomainException extends NoStackTraceException{
         this.errorInfo = errorInfo;
     }
 
-    public DomainException with(final ErrorInfo errorInfo) {
+    public static DomainException with(final ErrorInfo errorInfo) {
         return new DomainException(errorInfo);
     }
 
-    public DomainException with(final String message) {
+    public static DomainException with(final String message) {
         return new DomainException(new ErrorInfo(message));
     }
 

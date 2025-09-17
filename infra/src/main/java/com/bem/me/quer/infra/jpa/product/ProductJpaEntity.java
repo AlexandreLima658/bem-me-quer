@@ -1,31 +1,34 @@
-package com.bem.me.quer.infra.jpa.category;
+package com.bem.me.quer.infra.jpa.product;
 
+
+import com.bem.me.quer.infra.jpa.category.CategoryJpaEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.Accessors;
 
-import java.time.LocalDateTime;
-
+@Table(name = "products")
 @Entity
-@Table(name = "categories")
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
+@Getter
+@Setter
 @EqualsAndHashCode(of = "id")
-public class CategoryJpaEntity {
+public class ProductJpaEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "description")
     private String description;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private CategoryJpaEntity category;
+
+
 }
