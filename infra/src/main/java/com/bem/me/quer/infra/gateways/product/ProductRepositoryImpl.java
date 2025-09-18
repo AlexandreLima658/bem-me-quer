@@ -3,7 +3,6 @@ package com.bem.me.quer.infra.gateways.product;
 import com.bem.me.quer.domain.product.Product;
 import com.bem.me.quer.domain.product.ProductRepository;
 import com.bem.me.quer.domain.product.attributes.ProductId;
-import com.bem.me.quer.infra.jpa.category.CategoryJpaMapper;
 import com.bem.me.quer.infra.jpa.product.ProductJpaMapper;
 import com.bem.me.quer.infra.jpa.product.ProductJpaRepository;
 import org.springframework.stereotype.Component;

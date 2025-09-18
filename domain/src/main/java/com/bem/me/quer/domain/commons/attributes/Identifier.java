@@ -1,7 +1,5 @@
 package com.bem.me.quer.domain.commons.attributes;
 
-import java.util.Objects;
-
 public abstract class Identifier<T>{
 
     private final T value;

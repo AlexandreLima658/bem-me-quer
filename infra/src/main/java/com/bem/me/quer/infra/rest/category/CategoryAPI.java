@@ -43,6 +43,7 @@ public interface CategoryAPI {
             @ApiResponse(responseCode = "422", description = "Validation failed", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
     })
+
     ResponseEntity<UpdateCategoryOutput> update(
             @PathVariable(name = "categoryId") Long categoryId,
             @RequestBody UpdateCategoryHttpRequest request
@@ -55,6 +56,7 @@ public interface CategoryAPI {
             @ApiResponse(responseCode = "422", description = "Validation failed", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
     })
+
     ResponseEntity<RetrieveCategoryByIdOutput> retrieveById(
             @PathVariable(name = "categoryId") final Long categoryId
     );

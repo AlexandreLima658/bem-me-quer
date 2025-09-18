@@ -14,7 +14,6 @@ import com.bem.me.quer.domain.pagination.Pagination;
 import com.bem.me.quer.infra.gateways.category.RetrieveCategoriesByFilterGatewayImpl;
 import com.bem.me.quer.infra.gateways.category.RetrieveCategoryByIdGatewayImpl;
 import com.bem.me.quer.infra.rest.category.models.UpdateCategoryHttpRequest;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 

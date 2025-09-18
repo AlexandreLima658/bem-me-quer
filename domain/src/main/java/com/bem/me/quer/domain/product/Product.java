@@ -3,7 +3,6 @@ package com.bem.me.quer.domain.product;
 import com.bem.me.quer.domain.category.attributes.CategoryId;
 import com.bem.me.quer.domain.commons.entities.AggregateRoot;
 import com.bem.me.quer.domain.commons.exceptions.DomainException;
-import com.bem.me.quer.domain.commons.exceptions.ErrorInfo;
 import com.bem.me.quer.domain.product.attributes.ProductId;
 
 public class Product extends AggregateRoot<ProductId> {
@@ -30,6 +29,17 @@ public class Product extends AggregateRoot<ProductId> {
         this.name = name;
         this.description = description;
         this.categoryId = categoryId;
+    }
+
+    public void update(
+       final String name,
+       final String description,
+       final Long categoryId
+    ) {
+
+      this.name = name;
+      this.description = description;
+      this.categoryId = CategoryId.from(categoryId);
     }
 
     public String name() {

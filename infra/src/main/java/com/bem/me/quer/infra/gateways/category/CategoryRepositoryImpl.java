@@ -1,10 +1,10 @@
 package com.bem.me.quer.infra.gateways.category;
 
-import com.bem.me.quer.infra.jpa.category.CategoryJpaMapper;
-import com.bem.me.quer.infra.jpa.category.CategoryJpaRepository;
 import com.bem.me.quer.domain.category.Category;
 import com.bem.me.quer.domain.category.CategoryRepository;
 import com.bem.me.quer.domain.category.attributes.CategoryId;
+import com.bem.me.quer.infra.jpa.category.CategoryJpaMapper;
+import com.bem.me.quer.infra.jpa.category.CategoryJpaRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
