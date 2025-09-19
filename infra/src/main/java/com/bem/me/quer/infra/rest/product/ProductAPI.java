@@ -45,5 +45,15 @@ public interface ProductAPI {
             @RequestBody UpdateProductHttpRequest request
     );
 
+    @DeleteMapping(value = "{productId}")
+    @Operation(summary = "Delete product by their identifier")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Product deleted successfully"),
+            @ApiResponse(responseCode = "422", description = "Validation failed", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
+    })
+    void delete(@PathVariable(value = "productId") final Long productId);
+
+
 
 }
