@@ -1,8 +1,10 @@
 package com.bem.me.quer.infra.rest.product;
 
+import com.bem.me.quer.application.category.query.id.RetrieveCategoryByIdOutput;
 import com.bem.me.quer.application.product.commands.create.CreateProductInput;
 import com.bem.me.quer.application.product.commands.create.CreateProductOutput;
 import com.bem.me.quer.application.product.commands.update.UpdateProductOutput;
+import com.bem.me.quer.application.product.query.id.RetrieveProductByIdOutput;
 import com.bem.me.quer.domain.commons.exceptions.ErrorInfo;
 import com.bem.me.quer.infra.rest.product.models.UpdateProductHttpRequest;
 import io.swagger.v3.oas.annotations.Operation;
@@ -53,6 +55,18 @@ public interface ProductAPI {
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
     })
     void delete(@PathVariable(value = "productId") final Long productId);
+
+    @GetMapping(value = "{productId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "Retrieve product by identifier")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Product successfully recovered "),
+            @ApiResponse(responseCode = "422", description = "Validation failed", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
+    })
+
+    ResponseEntity<RetrieveProductByIdOutput> retrieveById(
+            @PathVariable(name = "productId") final Long productId
+    );
 
 
 
