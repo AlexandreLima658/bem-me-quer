@@ -6,8 +6,12 @@ import com.bem.me.quer.application.product.commands.create.CreateProductUseCase;
 import com.bem.me.quer.application.product.commands.delete.DeleteProductUseCase;
 import com.bem.me.quer.application.product.commands.update.UpdateProductOutput;
 import com.bem.me.quer.application.product.commands.update.UpdateProductUseCase;
+import com.bem.me.quer.application.product.query.filter.RetrieveProductsByFilterInput;
+import com.bem.me.quer.application.product.query.filter.RetrieveProductsByFilterOutput;
 import com.bem.me.quer.application.product.query.id.RetrieveProductByIdOutput;
+import com.bem.me.quer.domain.pagination.Pagination;
 import com.bem.me.quer.infra.gateways.product.RetrieveProductByIdGatewayImpl;
+import com.bem.me.quer.infra.gateways.product.RetrieveProductsByFilterGatewayImpl;
 import com.bem.me.quer.infra.rest.product.models.UpdateProductHttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,17 +25,20 @@ public class ProductController implements ProductAPI {
     private final UpdateProductUseCase updateProductUseCase;
     private final DeleteProductUseCase deleteProductUseCase;
     private final RetrieveProductByIdGatewayImpl retrieveProductByIdGateway;
+    private final RetrieveProductsByFilterGatewayImpl retrieveProductsByFilterGateway;
 
     public ProductController(
             final CreateProductUseCase createProductUseCase,
             final UpdateProductUseCase updateProductUseCase,
             final DeleteProductUseCase deleteProductUseCase,
-            final RetrieveProductByIdGatewayImpl retrieveProductByIdGateway
+            final RetrieveProductByIdGatewayImpl retrieveProductByIdGateway,
+            final RetrieveProductsByFilterGatewayImpl retrieveProductsByFilterGateway
     ) {
         this.createProductUseCase = createProductUseCase;
         this.updateProductUseCase = updateProductUseCase;
         this.deleteProductUseCase = deleteProductUseCase;
         this.retrieveProductByIdGateway = retrieveProductByIdGateway;
+        this.retrieveProductsByFilterGateway = retrieveProductsByFilterGateway;
     }
 
     @Override
@@ -61,5 +68,25 @@ public class ProductController implements ProductAPI {
     public ResponseEntity<RetrieveProductByIdOutput> retrieveById(final Long productId) {
         final var output = this.retrieveProductByIdGateway.execute(productId);
         return ResponseEntity.ok(output);
+    }
+
+    @Override
+    public ResponseEntity<Pagination<RetrieveProductsByFilterOutput>> retrieveByFilter(
+            final int page,
+            final int perPage,
+            final String sort,
+            final String query,
+            final String direction
+    ) {
+
+        final var input = new RetrieveProductsByFilterInput(
+                page,
+                perPage,
+                sort,
+                query,
+                direction
+        );
+
+        return ResponseEntity.ok(this.retrieveProductsByFilterGateway.execute(input));
     }
 }

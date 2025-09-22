@@ -1,11 +1,12 @@
 package com.bem.me.quer.infra.rest.product;
 
-import com.bem.me.quer.application.category.query.id.RetrieveCategoryByIdOutput;
 import com.bem.me.quer.application.product.commands.create.CreateProductInput;
 import com.bem.me.quer.application.product.commands.create.CreateProductOutput;
 import com.bem.me.quer.application.product.commands.update.UpdateProductOutput;
+import com.bem.me.quer.application.product.query.filter.RetrieveProductsByFilterOutput;
 import com.bem.me.quer.application.product.query.id.RetrieveProductByIdOutput;
 import com.bem.me.quer.domain.commons.exceptions.ErrorInfo;
+import com.bem.me.quer.domain.pagination.Pagination;
 import com.bem.me.quer.infra.rest.product.models.UpdateProductHttpRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -66,6 +67,21 @@ public interface ProductAPI {
 
     ResponseEntity<RetrieveProductByIdOutput> retrieveById(
             @PathVariable(name = "productId") final Long productId
+    );
+
+    @GetMapping
+    @Operation(summary = "Retrieve a list of products")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Products successfully recovered"),
+            @ApiResponse(responseCode = "422", description = "Validation failed",content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
+    })
+    ResponseEntity<Pagination<RetrieveProductsByFilterOutput>> retrieveByFilter(
+            @RequestParam(name = "page", required = false, defaultValue = "0") final int page,
+            @RequestParam(name = "per_page", required = false, defaultValue = "5") final int perPage,
+            @RequestParam(name = "sort", required = false, defaultValue = "name") final String sort,
+            @RequestParam(name = "query", required = false, defaultValue = "") final String query,
+            @RequestParam(name = "direction", required = false, defaultValue = "asc") final String direction
     );
 
 
