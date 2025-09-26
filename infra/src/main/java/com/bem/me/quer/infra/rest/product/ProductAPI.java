@@ -1,14 +1,13 @@
-package com.bem.me.quer.infra.rest.category;
+package com.bem.me.quer.infra.rest.product;
 
-
-import com.bem.me.quer.application.category.commands.create.CreateCategoryInput;
-import com.bem.me.quer.application.category.commands.create.CreateCategoryOutput;
-import com.bem.me.quer.application.category.commands.update.UpdateCategoryOutput;
-import com.bem.me.quer.application.category.query.filter.RetrieveCategoriesByFilterOutput;
-import com.bem.me.quer.application.category.query.id.RetrieveCategoryByIdOutput;
+import com.bem.me.quer.application.product.commands.create.CreateProductInput;
+import com.bem.me.quer.application.product.commands.create.CreateProductOutput;
+import com.bem.me.quer.application.product.commands.update.UpdateProductOutput;
+import com.bem.me.quer.application.product.query.filter.RetrieveProductsByFilterOutput;
+import com.bem.me.quer.application.product.query.id.RetrieveProductByIdOutput;
 import com.bem.me.quer.domain.commons.exceptions.ErrorInfo;
 import com.bem.me.quer.domain.pagination.Pagination;
-import com.bem.me.quer.infra.rest.category.models.UpdateCategoryHttpRequest;
+import com.bem.me.quer.infra.rest.product.models.UpdateProductHttpRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -19,56 +18,65 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping(value = "/categories")
-@Tag(name = "Categories", description = "categories")
-public interface CategoryAPI {
+@RequestMapping(value = "/products")
+@Tag(name = "Products", description = "products")
+public interface ProductAPI {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    @Operation(summary = "Create a new Category")
+    @Operation(summary = "Create a new Product")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Category created successfully"),
+            @ApiResponse(responseCode = "201", description = "Product created successfully"),
             @ApiResponse(responseCode = "422", description = "Validation failed", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
     })
-    ResponseEntity<CreateCategoryOutput> create(@RequestBody CreateCategoryInput input);
+    ResponseEntity<CreateProductOutput> create(@RequestBody CreateProductInput input);
 
     @PutMapping(
-            value = "{categoryId}",
+            value = "{productId}",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    @Operation(summary = "Update a category by their identifier")
+    @Operation(summary = "Update a product by their identifier")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Category updated successfully"),
+            @ApiResponse(responseCode = "200", description = "Product updated successfully"),
             @ApiResponse(responseCode = "422", description = "Validation failed", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
     })
 
-    ResponseEntity<UpdateCategoryOutput> update(
-            @PathVariable(name = "categoryId") Long categoryId,
-            @RequestBody UpdateCategoryHttpRequest request
+    ResponseEntity<UpdateProductOutput> update(
+            @PathVariable(name = "productId") Long productId,
+            @RequestBody UpdateProductHttpRequest request
     );
 
-    @GetMapping(value = "{categoryId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @Operation(summary = "Retrieve category by identifier")
+    @DeleteMapping(value = "{productId}")
+    @Operation(summary = "Delete product by their identifier")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Category successfully recovered "),
+            @ApiResponse(responseCode = "200", description = "Product deleted successfully"),
+            @ApiResponse(responseCode = "422", description = "Validation failed", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
+    })
+    void delete(@PathVariable(value = "productId") final Long productId);
+
+    @GetMapping(value = "{productId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "Retrieve product by identifier")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Product successfully recovered "),
             @ApiResponse(responseCode = "422", description = "Validation failed", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
     })
 
-    ResponseEntity<RetrieveCategoryByIdOutput> retrieveById(
-            @PathVariable(name = "categoryId") final Long categoryId
+    ResponseEntity<RetrieveProductByIdOutput> retrieveById(
+            @PathVariable(name = "productId") final Long productId
     );
 
     @GetMapping
-    @Operation(summary = "Retrieve a list of categories")
+    @Operation(summary = "Retrieve a list of products")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Categories successfully recovered"),
+            @ApiResponse(responseCode = "200", description = "Products successfully recovered"),
             @ApiResponse(responseCode = "422", description = "Validation failed",content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
     })
-    ResponseEntity<Pagination<RetrieveCategoriesByFilterOutput>> retrieveByFilter(
+    ResponseEntity<Pagination<RetrieveProductsByFilterOutput>> retrieveByFilter(
             @RequestParam(name = "page", required = false, defaultValue = "0") final int page,
             @RequestParam(name = "per_page", required = false, defaultValue = "5") final int perPage,
             @RequestParam(name = "sort", required = false, defaultValue = "name") final String sort,
@@ -76,13 +84,6 @@ public interface CategoryAPI {
             @RequestParam(name = "direction", required = false, defaultValue = "asc") final String direction
     );
 
-    @DeleteMapping(value = "{categoryId}")
-    @Operation(summary = "Delete category by their identifier")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Category deleted successfully"),
-            @ApiResponse(responseCode = "422", description = "Validation failed", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
-            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
-    })
-    void delete(@PathVariable(value = "categoryId") final Long categoryId);
+
 
 }

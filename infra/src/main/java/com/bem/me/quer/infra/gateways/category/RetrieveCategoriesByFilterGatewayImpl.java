@@ -6,15 +6,11 @@ import com.bem.me.quer.application.category.query.filter.RetrieveCategoriesByFil
 import com.bem.me.quer.domain.pagination.Pagination;
 import com.bem.me.quer.infra.jpa.category.CategoryJpaEntity;
 import com.bem.me.quer.infra.jpa.category.CategoryJpaRepository;
-import jakarta.persistence.criteria.Predicate;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Component
