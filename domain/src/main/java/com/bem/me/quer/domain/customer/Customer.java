@@ -20,6 +20,16 @@ public class Customer extends AggregateRoot<CustomerId> {
     this.address = address;
   }
 
+  public void update(
+      final String name,
+      final String email,
+      final String address) {
+
+    this.name = name;
+    this.email = email;
+    this.address = address;
+  }
+
   public String name() {
     return name;
   }
