@@ -13,3 +13,10 @@ CREATE TABLE products (
     category_id BIGINT NOT NULL,
     CONSTRAINT fk_products_category FOREIGN KEY (category_id) REFERENCES categories(id)
 );
+
+CREATE TABLE customers (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(255),
+    address VARCHAR(255)
+);
