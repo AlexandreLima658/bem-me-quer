@@ -1,7 +1,8 @@
 package com.bem.me.quer.domain.customer;
 
-import com.bem.me.quer.domain.customer.attributes.CustomerId;
+
 import com.bem.me.quer.domain.commons.entities.AggregateRoot;
+import com.bem.me.quer.domain.customer.attributes.CustomerId;
 
 public class Customer extends AggregateRoot<CustomerId> {
 
