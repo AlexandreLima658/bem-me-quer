@@ -46,4 +46,13 @@ public interface CustomerAPI {
             @RequestBody UpdateCustomerHttpRequest request
     );
 
+    @DeleteMapping(value = "{customerId}")
+    @Operation(summary = "Delete customer by their identifier")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Customer deleted successfully"),
+            @ApiResponse(responseCode = "422", description = "Validation failed", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
+    })
+    void delete(@PathVariable(value = "customerId") final Long customerId);
+
 }
