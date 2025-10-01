@@ -58,13 +58,13 @@ public class RetrieveCustomersByFilterGatewayImpl implements RetrieveCustomersBy
     }
 
     private Specification<CustomerJpaEntity> filters(final String term) {
-        return ((root, query, builder) -> {
+        return (root, query, builder) -> {
 
             if (Objects.isNull(term) || term.isBlank()) {
-                return builder.isTrue((builder.literal(true)));
+                return builder.isTrue(builder.literal(true));
             }
 
             return builder.like(builder.lower(root.get("name")), "%" + term.toLowerCase() + "%");
-        });
+        };
     }
 }

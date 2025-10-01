@@ -18,25 +18,25 @@ import org.springframework.web.bind.annotation.RestController;
 import java.net.URI;
 
 @RestController
-public class CustomerController implements CustomerAPI{
+public class CustomerController implements CustomerAPI {
 
     private final CreateCustomerUseCase createCustomerUseCase;
     private final UpdateCustomerUseCase updateCustomerUseCase;
     private final DeleteCustomerUseCase deleteCustomerUseCase;
-    private final RetrieveCustomersByFilterGatewayImpl retrieveCategoriesByFilterGateway;
+    private final RetrieveCustomersByFilterGatewayImpl retrieveCustomersByFilterGateway;
 
     public CustomerController(
             final CreateCustomerUseCase createCustomerUseCase,
             final UpdateCustomerUseCase updateCustomerUseCase,
             final DeleteCustomerUseCase deleteCustomerUseCase,
-            final RetrieveCustomersByFilterGatewayImpl retrieveCategoriesByFilterGateway
-
+            final RetrieveCustomersByFilterGatewayImpl retrieveCustomersByFilterGateway
     ) {
         this.createCustomerUseCase = createCustomerUseCase;
         this.updateCustomerUseCase = updateCustomerUseCase;
         this.deleteCustomerUseCase = deleteCustomerUseCase;
 
-        this.retrieveCategoriesByFilterGateway = retrieveCategoriesByFilterGateway;
+
+        this.retrieveCustomersByFilterGateway = retrieveCustomersByFilterGateway;
     }
 
     @Override
@@ -76,6 +76,6 @@ public class CustomerController implements CustomerAPI{
                 direction
         );
 
-        return ResponseEntity.ok(this.retrieveCategoriesByFilterGateway.execute(input));
+        return ResponseEntity.ok(this.retrieveCustomersByFilterGateway.execute(input));
     }
 }

@@ -17,6 +17,6 @@ CREATE TABLE products (
 CREATE TABLE customers (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    email VARCHAR(255),
+    email VARCHAR(255) NOT NULL,
     address VARCHAR(255)
 );
