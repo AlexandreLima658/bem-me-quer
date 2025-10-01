@@ -7,6 +7,10 @@ import com.bem.me.quer.application.customer.commands.create.CreateCustomerUseCas
 import com.bem.me.quer.application.customer.commands.delete.DeleteCustomerUseCase;
 import com.bem.me.quer.application.customer.commands.update.UpdateCustomerOutput;
 import com.bem.me.quer.application.customer.commands.update.UpdateCustomerUseCase;
+import com.bem.me.quer.application.customer.query.filter.RetrieveCustomersByFilterInput;
+import com.bem.me.quer.application.customer.query.filter.RetrieveCustomersByFilterOutput;
+import com.bem.me.quer.domain.pagination.Pagination;
+import com.bem.me.quer.infra.gateways.customer.RetrieveCustomersByFilterGatewayImpl;
 import com.bem.me.quer.infra.rest.customer.models.UpdateCustomerHttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,20 +18,25 @@ import org.springframework.web.bind.annotation.RestController;
 import java.net.URI;
 
 @RestController
-public class CustomerController  implements CustomerAPI{
+public class CustomerController implements CustomerAPI{
 
     private final CreateCustomerUseCase createCustomerUseCase;
     private final UpdateCustomerUseCase updateCustomerUseCase;
     private final DeleteCustomerUseCase deleteCustomerUseCase;
+    private final RetrieveCustomersByFilterGatewayImpl retrieveCategoriesByFilterGateway;
 
     public CustomerController(
             final CreateCustomerUseCase createCustomerUseCase,
             final UpdateCustomerUseCase updateCustomerUseCase,
-            final DeleteCustomerUseCase deleteCustomerUseCase
+            final DeleteCustomerUseCase deleteCustomerUseCase,
+            final RetrieveCustomersByFilterGatewayImpl retrieveCategoriesByFilterGateway
+
     ) {
         this.createCustomerUseCase = createCustomerUseCase;
         this.updateCustomerUseCase = updateCustomerUseCase;
         this.deleteCustomerUseCase = deleteCustomerUseCase;
+
+        this.retrieveCategoriesByFilterGateway = retrieveCategoriesByFilterGateway;
     }
 
     @Override
@@ -49,5 +58,24 @@ public class CustomerController  implements CustomerAPI{
     @Override
     public void delete(final Long customerId) {
         this.deleteCustomerUseCase.execute(customerId);
+    }
+
+    @Override
+    public ResponseEntity<Pagination<RetrieveCustomersByFilterOutput>> retrieveByFilter(
+            final int page,
+            final int perPage,
+            final String sort,
+            final String query,
+            String direction
+    ) {
+        final var input = new RetrieveCustomersByFilterInput(
+                page,
+                perPage,
+                sort,
+                query,
+                direction
+        );
+
+        return ResponseEntity.ok(this.retrieveCategoriesByFilterGateway.execute(input));
     }
 }
