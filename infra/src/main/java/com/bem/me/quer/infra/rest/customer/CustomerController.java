@@ -9,7 +9,9 @@ import com.bem.me.quer.application.customer.commands.update.UpdateCustomerOutput
 import com.bem.me.quer.application.customer.commands.update.UpdateCustomerUseCase;
 import com.bem.me.quer.application.customer.query.filter.RetrieveCustomersByFilterInput;
 import com.bem.me.quer.application.customer.query.filter.RetrieveCustomersByFilterOutput;
+import com.bem.me.quer.application.customer.query.id.RetrieveCustomerByIdOutput;
 import com.bem.me.quer.domain.pagination.Pagination;
+import com.bem.me.quer.infra.gateways.customer.RetrieveCustomerByIdGatewayImpl;
 import com.bem.me.quer.infra.gateways.customer.RetrieveCustomersByFilterGatewayImpl;
 import com.bem.me.quer.infra.rest.customer.models.UpdateCustomerHttpRequest;
 import org.springframework.http.ResponseEntity;
@@ -24,12 +26,14 @@ public class CustomerController implements CustomerAPI {
     private final UpdateCustomerUseCase updateCustomerUseCase;
     private final DeleteCustomerUseCase deleteCustomerUseCase;
     private final RetrieveCustomersByFilterGatewayImpl retrieveCustomersByFilterGateway;
+    private final RetrieveCustomerByIdGatewayImpl retrieveCustomerByIdGateway;
 
     public CustomerController(
             final CreateCustomerUseCase createCustomerUseCase,
             final UpdateCustomerUseCase updateCustomerUseCase,
             final DeleteCustomerUseCase deleteCustomerUseCase,
-            final RetrieveCustomersByFilterGatewayImpl retrieveCustomersByFilterGateway
+            final RetrieveCustomersByFilterGatewayImpl retrieveCustomersByFilterGateway,
+            final RetrieveCustomerByIdGatewayImpl retrieveCustomerByIdGateway
     ) {
         this.createCustomerUseCase = createCustomerUseCase;
         this.updateCustomerUseCase = updateCustomerUseCase;
@@ -37,6 +41,7 @@ public class CustomerController implements CustomerAPI {
 
 
         this.retrieveCustomersByFilterGateway = retrieveCustomersByFilterGateway;
+        this.retrieveCustomerByIdGateway = retrieveCustomerByIdGateway;
     }
 
     @Override
@@ -77,5 +82,10 @@ public class CustomerController implements CustomerAPI {
         );
 
         return ResponseEntity.ok(this.retrieveCustomersByFilterGateway.execute(input));
+    }
+
+    @Override
+    public ResponseEntity<RetrieveCustomerByIdOutput> retrieveById(final Long customerId) {
+        return ResponseEntity.ok(this.retrieveCustomerByIdGateway.execute(customerId));
     }
 }

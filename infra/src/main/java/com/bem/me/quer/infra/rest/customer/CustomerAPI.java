@@ -5,7 +5,7 @@ import com.bem.me.quer.application.customer.commands.create.CreateCustomerInput;
 import com.bem.me.quer.application.customer.commands.create.CreateCustomerOutput;
 import com.bem.me.quer.application.customer.commands.update.UpdateCustomerOutput;
 import com.bem.me.quer.application.customer.query.filter.RetrieveCustomersByFilterOutput;
-import com.bem.me.quer.application.product.query.filter.RetrieveProductsByFilterOutput;
+import com.bem.me.quer.application.customer.query.id.RetrieveCustomerByIdOutput;
 import com.bem.me.quer.domain.commons.exceptions.ErrorInfo;
 import com.bem.me.quer.domain.pagination.Pagination;
 import com.bem.me.quer.infra.rest.customer.models.UpdateCustomerHttpRequest;
@@ -71,6 +71,18 @@ public interface CustomerAPI {
             @RequestParam(name = "sort", required = false, defaultValue = "name") final String sort,
             @RequestParam(name = "q", required = false, defaultValue = "") final String query,
             @RequestParam(name = "direction", required = false, defaultValue = "asc") final String direction
+    );
+
+    @GetMapping(value = "{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "Retrieve customer by identifier")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Customer successfully recovered "),
+            @ApiResponse(responseCode = "422", description = "Validation failed", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
+    })
+
+    ResponseEntity<RetrieveCustomerByIdOutput> retrieveById(
+            @PathVariable(name = "customerId") final Long customerId
     );
 
 }
