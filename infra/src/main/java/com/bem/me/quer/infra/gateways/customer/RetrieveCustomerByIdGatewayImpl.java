@@ -21,6 +21,7 @@ public class RetrieveCustomerByIdGatewayImpl implements RetrieveCustomerByIdGate
 
     @Override
     public RetrieveCustomerByIdOutput execute(final Long id) {
+
         final var customerId = CustomerId.from(id);
 
         return this.repository.findOne(hasId(customerId.value()))
