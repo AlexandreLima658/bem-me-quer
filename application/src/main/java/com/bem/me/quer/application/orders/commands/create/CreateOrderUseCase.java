@@ -38,11 +38,11 @@ public class CreateOrderUseCase extends UseCase<CreateOrderInput, CreateOrderOut
 
         final var orderItems = input.orderItemId()
                 .stream()
-                .map(OrderItemId::create)
+                .map(OrderItemId::from)
                 .collect(Collectors.toSet());
 
         final var order = OrderFactory.create(
-                CustomerId.from(input.customerId()),
+                customer.id(),
                 orderItems,
                 input.totalAmount(),
                 input.status(),

@@ -8,7 +8,7 @@ public class OrderItemId extends Identifier<Long> {
         super(value);
     }
 
-    public static OrderItemId create(final Long value) {
+    public static OrderItemId from(final Long value) {
         return new OrderItemId(value);
     }
 

@@ -8,14 +8,15 @@ import com.bem.me.quer.domain.order.item.attributes.OrderItemId;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Order extends AggregateRoot<OrderId> {
 
-    private final CustomerId customerId;
-    private final Set<OrderItemId> orderItemIds;
-    private final BigDecimal totalAmount;
-    private final OrderStatus status;
-    private final LocalDateTime createdAt;
+    private CustomerId customerId;
+    private Set<OrderItemId> orderItemIds;
+    private BigDecimal totalAmount;
+    private OrderStatus status;
+    private LocalDateTime createdAt;
 
     Order(
             final OrderId id,
@@ -25,7 +26,7 @@ public class Order extends AggregateRoot<OrderId> {
             final OrderStatus status,
             final LocalDateTime createdAt
 
-            ) {
+    ) {
         super(id);
         this.customerId = customerId;
         this.orderItemIds = orderItemIds;
@@ -42,7 +43,7 @@ public class Order extends AggregateRoot<OrderId> {
         return status;
     }
 
-    public CustomerId customerId(){
+    public CustomerId customerId() {
         return customerId;
     }
 
@@ -52,6 +53,17 @@ public class Order extends AggregateRoot<OrderId> {
 
     public BigDecimal totalAmount() {
         return totalAmount;
+    }
+
+    public void update(
+            final Set<Long> orderItemIds,
+            final OrderStatus status
+    ) {
+        this.orderItemIds = orderItemIds.stream()
+                .map(OrderItemId::from)
+                .collect(Collectors.toSet());
+
+        this.status = status;
     }
 
     public enum OrderStatus {
