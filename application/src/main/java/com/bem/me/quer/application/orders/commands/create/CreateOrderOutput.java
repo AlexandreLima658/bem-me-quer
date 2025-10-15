@@ -1,4 +1,4 @@
 package com.bem.me.quer.application.orders.commands.create;
 
-public record CreateOrderOutput() {
+public record CreateOrderOutput(Long id) {
 }

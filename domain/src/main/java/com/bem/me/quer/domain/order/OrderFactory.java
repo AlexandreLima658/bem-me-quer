@@ -13,37 +13,38 @@ public interface OrderFactory {
     static Order create(
             final OrderId orderId,
             final CustomerId customerId,
-            final LocalDateTime orderDate,
-            final Order.OrderStatus status,
             final Set<OrderItemId> orderItemIds,
-            final BigDecimal totalAmount
+            final BigDecimal totalAmount,
+            final Order.OrderStatus status,
+            final LocalDateTime createdAt
+
     ) {
         return new Order(
                 orderId,
-                orderDate,
-                status,
                 CustomerId.from(customerId.value()),
                 orderItemIds,
-                totalAmount
+                totalAmount,
+                status,
+                createdAt
         );
     }
 
     static Order create(
             final CustomerId customerId,
-            final LocalDateTime orderDate,
-            final Order.OrderStatus status,
             final Set<OrderItemId> orderItemIds,
-            final BigDecimal totalAmount
+            final BigDecimal totalAmount,
+            final Order.OrderStatus status,
+            final LocalDateTime createdAt
     ) {
         final var orderId = OrderId.createNullValue();
 
         return new Order(
                 orderId,
-                orderDate,
-                status,
                 CustomerId.from(customerId.value()),
                 orderItemIds,
-                totalAmount
+                totalAmount,
+                status,
+                createdAt
         );
     }
 }

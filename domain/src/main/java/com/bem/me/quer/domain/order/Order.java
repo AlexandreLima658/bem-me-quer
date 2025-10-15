@@ -12,30 +12,30 @@ import java.util.Set;
 public class Order extends AggregateRoot<OrderId> {
 
     private final CustomerId customerId;
-    private final LocalDateTime orderDate;
-    private final OrderStatus status;
     private final Set<OrderItemId> orderItemIds;
     private final BigDecimal totalAmount;
+    private final OrderStatus status;
+    private final LocalDateTime createdAt;
 
     Order(
             final OrderId id,
-            final LocalDateTime orderDate,
-            final OrderStatus status,
             final CustomerId customerId,
             final Set<OrderItemId> orderItemIds,
-            final BigDecimal totalAmount
+            final BigDecimal totalAmount,
+            final OrderStatus status,
+            final LocalDateTime createdAt
 
             ) {
         super(id);
-        this.orderDate = orderDate;
-        this.status = status;
         this.customerId = customerId;
         this.orderItemIds = orderItemIds;
         this.totalAmount = totalAmount;
+        this.status = status;
+        this.createdAt = createdAt;
     }
 
     public LocalDateTime date() {
-        return orderDate;
+        return createdAt;
     }
 
     public OrderStatus status() {
