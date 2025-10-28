@@ -16,6 +16,9 @@ public class Order extends AggregateRoot<OrderId> {
     private Set<OrderItemId> orderItemIds;
     private BigDecimal totalAmount;
     private OrderStatus status;
+
+
+
     private LocalDateTime createdAt;
 
     Order(
@@ -45,6 +48,9 @@ public class Order extends AggregateRoot<OrderId> {
 
     public CustomerId customerId() {
         return customerId;
+    }
+    public LocalDateTime createdAt() {
+        return createdAt;
     }
 
     public Set<OrderItemId> orderItemIds() {
