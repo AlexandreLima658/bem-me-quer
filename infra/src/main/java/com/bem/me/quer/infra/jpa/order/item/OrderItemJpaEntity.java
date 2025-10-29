@@ -19,22 +19,22 @@ import java.math.BigDecimal;
 @EqualsAndHashCode(of = "id")
 public class OrderItemJpaEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
-    private ProductJpaEntity product;
+  @ManyToOne
+  @JoinColumn(name = "product_id", nullable = false)
+  private ProductJpaEntity product;
 
-    @ManyToOne
-    @JoinColumn(name = "order_id", nullable = false)
-    private OrderJpaEntity order;
+  @ManyToOne
+  @JoinColumn(name = "order_id", nullable = false)
+  private OrderJpaEntity order;
 
-    @Column(name = "quantity")
-    private Integer quantity;
+  @Column(name = "quantity")
+  private Integer quantity;
 
-    @Column(name = "unitPrice")
-    private BigDecimal unitPrice;
+  @Column(name = "unitPrice")
+  private BigDecimal unitPrice;
 
 }

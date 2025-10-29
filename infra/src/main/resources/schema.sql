@@ -20,3 +20,8 @@ CREATE TABLE customers (
     email VARCHAR(255) NOT NULL,
     address VARCHAR(255)
 );
+
+create TABLE orders (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    customer_id BIGINT NOT NULL,
+)
