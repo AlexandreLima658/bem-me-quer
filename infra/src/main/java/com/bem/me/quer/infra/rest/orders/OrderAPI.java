@@ -3,7 +3,9 @@ package com.bem.me.quer.infra.rest.orders;
 import com.bem.me.quer.application.category.query.id.RetrieveCategoryByIdOutput;
 import com.bem.me.quer.application.orders.commands.create.CreateOrderInput;
 import com.bem.me.quer.application.orders.commands.create.CreateOrderOutput;
+import com.bem.me.quer.application.orders.commands.update.UpdateOrderOutput;
 import com.bem.me.quer.application.orders.query.id.RetrieveOrderByIdOutput;
+import com.bem.me.quer.infra.rest.orders.models.UpdateOrderHttpRequest;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -42,6 +44,22 @@ public interface OrderAPI {
 
   ResponseEntity<RetrieveOrderByIdOutput> retrieveById(
           @PathVariable(name = "orderId") final Long orderId
+  );
+
+  @PutMapping(
+          value = "{orderId}",
+          consumes = MediaType.APPLICATION_JSON_VALUE,
+          produces = MediaType.APPLICATION_JSON_VALUE
+  )
+  @Operation(summary = "Update a order by their identifier")
+  @ApiResponses(value = {
+          @ApiResponse(responseCode = "200", description = "Order updated successfully"),
+          @ApiResponse(responseCode = "422", description = "Validation failed", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
+          @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
+  })
+  ResponseEntity<UpdateOrderOutput> update(
+          @PathVariable(name = "orderId") Long orderId,
+          @RequestBody UpdateOrderHttpRequest request
   );
 
 }
