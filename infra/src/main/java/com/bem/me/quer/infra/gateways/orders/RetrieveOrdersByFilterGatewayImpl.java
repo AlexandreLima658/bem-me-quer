@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component
@@ -64,7 +65,13 @@ public class RetrieveOrdersByFilterGatewayImpl implements RetrieveOrdersByFilter
    }
 
    private Specification<OrderJpaEntity> filters(final String term) {
-    return null;
-   }
+    return (root, query, builder) -> {
 
+        if (Objects.isNull(term) || term.isBlank()) {
+            return builder.isTrue(builder.literal(true));
+        }
+
+        return builder.like(root.get("id").as(String.class), "%" + term + "%");
+        };
+   }
 }
