@@ -1,24 +1,21 @@
 package com.bem.me.quer.infra.rest.orders;
 
-import com.bem.me.quer.application.category.query.id.RetrieveCategoryByIdOutput;
 import com.bem.me.quer.application.orders.commands.create.CreateOrderInput;
 import com.bem.me.quer.application.orders.commands.create.CreateOrderOutput;
 import com.bem.me.quer.application.orders.commands.update.UpdateOrderOutput;
+import com.bem.me.quer.application.orders.query.filter.RetrieveOrdersByFilterOutput;
 import com.bem.me.quer.application.orders.query.id.RetrieveOrderByIdOutput;
+import com.bem.me.quer.domain.commons.exceptions.ErrorInfo;
+import com.bem.me.quer.domain.pagination.Pagination;
 import com.bem.me.quer.infra.rest.orders.models.UpdateOrderHttpRequest;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.bem.me.quer.domain.commons.exceptions.ErrorInfo;
-
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RequestMapping(value = "orders")
@@ -45,6 +42,21 @@ public interface OrderAPI {
   ResponseEntity<RetrieveOrderByIdOutput> retrieveById(
           @PathVariable(name = "orderId") final Long orderId
   );
+
+    @GetMapping
+    @Operation(summary = "Retrieve a list of orders")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Orders successfully recovered"),
+            @ApiResponse(responseCode = "422", description = "Validation failed",content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorInfo.class))),
+    })
+    ResponseEntity<Pagination<RetrieveOrdersByFilterOutput>> retrieveByFilter(
+            @RequestParam(name = "page", required = false, defaultValue = "0") final int page,
+            @RequestParam(name = "per_page", required = false, defaultValue = "5") final int perPage,
+            @RequestParam(name = "sort", required = false, defaultValue = "name") final String sort,
+            @RequestParam(name = "query", required = false, defaultValue = "") final String query,
+            @RequestParam(name = "direction", required = false, defaultValue = "asc") final String direction
+    );
 
   @PutMapping(
           value = "{orderId}",

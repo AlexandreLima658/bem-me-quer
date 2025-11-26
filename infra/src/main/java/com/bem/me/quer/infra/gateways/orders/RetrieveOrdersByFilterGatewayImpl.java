@@ -25,7 +25,7 @@ public class RetrieveOrdersByFilterGatewayImpl implements RetrieveOrdersByFilter
    }
 
    @Override
-   public Pagination<RetrieveOrdersByFilterOutput> execute(RetrieveOrdersByFilterInput input) {
+   public Pagination<RetrieveOrdersByFilterOutput> execute(final RetrieveOrdersByFilterInput input) {
 
     final var specification = filters(input.query());
 
