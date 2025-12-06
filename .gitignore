@@ -35,5 +35,10 @@ out/
 
 ### VS Code ###
 .vscode/
-
 .env
+<<<<<<< HEAD
+.docker
+=======
+
+>>>>>>> 14cfbeb (feat: add retrieve orders by filter)
+

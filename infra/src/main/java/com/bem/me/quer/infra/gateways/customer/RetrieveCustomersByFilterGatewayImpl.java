@@ -62,4 +62,5 @@ public class RetrieveCustomersByFilterGatewayImpl implements RetrieveCustomersBy
       return builder.like(builder.lower(root.get("name")), "%" + term.toLowerCase() + "%");
     };
   }
+
 }
